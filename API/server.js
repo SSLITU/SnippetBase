@@ -1,7 +1,7 @@
 // server.ts
 // todo: Make typesafe
 import express from "express";
-import { addSnippet, getSnippets } from "./DB/methods";
+import { addSnippet, addUser, getSnippets } from "./DB/methods";
 import cors from "cors";
 
 const app = express();
@@ -13,6 +13,15 @@ app.post("/snippets", async (req, res) => {
   try {
     res.json("Conncted");
     await addSnippet(req.body);
+    res.status(201).send("Snippet added successfully");
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
+
+app.post("/user", async (req, res) => {
+  try {
+    await addUser(req.body);
     res.status(201).send("Snippet added successfully");
   } catch (error) {
     res.status(500).send(error.message);
